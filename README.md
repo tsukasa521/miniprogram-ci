@@ -27,7 +27,7 @@
   yarn global add @2kk/miniprogram-ci
 ```
 ### 新建项目
-新建一个小程序项目,并设置一个初始的版本号,**如果项目已经发布过这里可以设置为上一个版本号**;如果从未发布过这里可以设置为`0.0.0`.
+新建一个小程序项目,并设置一个初始的版本号，如果项目已经发布过这里可以设置为上一个版本号；如果从未发布过这里可以设置为`0.0.0`.
 ```sh
 mp-ci project update <miniprogram project name> <init version>
 ```
@@ -53,10 +53,10 @@ mp-ci project ls
 mp-ci upload [options] <project name> <config path>
 ```
 
-需要知道要发布哪个小程序项目和发布的配置文件路径,配置文件的内容与官网包完全一致
+需要知道要发布的那个小程序项目名称和发布的配置文件路径，配置文件的内容与官网包完全一致
 
+示例配置文件：
 ```json
-# 示例配置文件
 {
   "project1": {
     "appid": "wx1234567890",
@@ -65,11 +65,6 @@ mp-ci upload [options] <project name> <config path>
   }
 }
 ```
-
-## 功能列表 | Features
-
-## 后续规划功能 | todo list
-
 
 ## 本地运行 | Getting Started
 安装依赖
