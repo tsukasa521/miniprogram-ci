@@ -8,7 +8,7 @@
 最早只能通过微信开发者工具发布,需要使用微信号登录还必须打开一个软件非常的不方便.
 
 后来官方发布了独立的npm包 [miniprogram-ci
-](https://www.npmjs.com/package/miniprogram-ci) 可以通过命令行或代码的方式来进行发布,让自动发布成为了可能.但发布时版本号和版本描述还是需要人工填写,生产环境因为发布频率低这个问题还不明显.但到了体验版问题就明显了,体验版要拿来测试发布非常频繁,操作人员往往不知道下一个版本应该填什么,甚至会图省事版本号就不变了(版本号不变在体验版时也能发布但会出现不能及时更新的问题).
+](https://www.npmjs.com/package/miniprogram-ci) 可以通过命令行或代码的方式来进行发布,让自动发布成为了可能.但发布时版本号和版本描述还是需要人工填写,生产环境因为发布频率低这个问题还不明显.但到了体验版问题就明显了,体验版要拿来测试发布非常频繁,操作人员往往不知道下一个版本应该填什么,甚至会图省事版本号就不变了(版本号不变在体验版时也能发布但会出现不能及时更新的问题)
 
 所以...就有了这个项目
 
@@ -29,7 +29,7 @@
 ### 新建项目
 新建一个小程序项目,并设置一个初始的版本号，如果项目已经发布过这里可以设置为上一个版本号；如果从未发布过这里可以设置为`0.0.0`.
 ```sh
-mp-ci project update <miniprogram project name> <init version>
+  mp-ci project update <miniprogram project name> <init version>
 ```
 
 如果项目已经存在,那么执行此命令就是手动更新版本号
@@ -37,33 +37,33 @@ mp-ci project update <miniprogram project name> <init version>
 ### 查看项目
 新建完成后,可以随时查看项目的版本号
 ```sh
-mp-ci project ls
+  mp-ci project ls
 
-# 显示如下内容:
-┌─────────┬────────────┬──────────┐
-│ (index) │   项目名    │  版本号  │
-├─────────┼────────────┼──────────┤
-│    0    │ 'project1' │ '1.0.0'  │
-└─────────┴────────────┴──────────┘
+  # 显示如下内容:
+  ┌─────────┬────────────┬──────────┐
+  │ (index) │   项目名    │  版本号  │
+  ├─────────┼────────────┼──────────┤
+  │    0    │ 'project1' │ '1.0.0'  │
+  └─────────┴────────────┴──────────┘
 ```
 
 ### 发布小程序
 下面就是最重要的一步发布小程序
 ```sh
-mp-ci upload [options] <project name> <config path>
+  mp-ci upload [options] <project name> <config path>
 ```
 
 需要知道要发布的那个小程序项目名称和发布的配置文件路径，配置文件的内容与官网包完全一致
 
 示例配置文件：
 ```json
-{
-  "project1": {
-    "appid": "wx1234567890",
-    "projectPath": "./tests",
-    "privateKeyPath": "./tests/private.wx1234567890.key"
+  {
+    "project1": {
+      "appid": "wx1234567890",
+      "projectPath": "./tests",
+      "privateKeyPath": "./tests/private.wx1234567890.key"
+    }
   }
-}
 ```
 
 ## 本地运行 | Getting Started
@@ -81,10 +81,9 @@ mp-ci upload [options] <project name> <config path>
 
 本地运行命令
 ```sh
-node ./dist/index.js project update <miniprogram project name> <init version>
+  node ./dist/index.js project update <miniprogram project name> <init version>
 
-node ./dist/index.js project ls
-
+  node ./dist/index.js project ls
 ```
 ### mock运行
 
@@ -92,7 +91,7 @@ node ./dist/index.js project ls
 
 项目预制了一个命令可以直接使用
 ```sh
-yarn test:upload
+  yarn test:upload
 ```
 
 打包
