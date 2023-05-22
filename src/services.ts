@@ -33,6 +33,10 @@ export async function publishMiniprogram(
   await updateVersion({ projectName, version })
 }
 
+/**
+ * 列表显示所有小程序项目
+ * @param options 
+ */
 export async function getConfigList(options: listConfigOptions) {
   const db = await DATABASE.T_MINIPROGRAM_PROJECT.list()
   if (options.raw) {
@@ -46,7 +50,7 @@ export async function getConfigList(options: listConfigOptions) {
 }
 
 /**
- * 手动更新版本号
+ * 更新版本号
  * @param options 
  */
 export async function updateVersion(options: UpdateVersionOptions) {

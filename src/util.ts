@@ -1,8 +1,14 @@
 import { DATABASE } from './database'
 import { VersionUpdatePolicy } from './types'
 
+/**
+ * 验证版本号合法性
+ * todo 暂不支持alpha这种版本号
+ * @param version 版本号
+ * @param throwErrorMessage 异常信息
+ * @returns 
+ */
 export function validateSemanticVersion(version: string, throwErrorMessage: string = "") {
-  // todo 暂不支持alpha这种版本号
   const reg = /^(\d+)\.(\d+)\.(\d+)$/
   if (throwErrorMessage) {
     if (!reg.test(version)) {
@@ -16,7 +22,7 @@ export function validateSemanticVersion(version: string, throwErrorMessage: stri
 /**
  * 根据Semantic规则生成下一个版本号
  * @param projectName 小程序项目名称
- * @param policy
+ * @param policy 版本更新策略
  * @returns 
  */
 export async function nextSemanticVersion(projectName: string, policy?: VersionUpdatePolicy) {
@@ -35,6 +41,10 @@ export async function nextSemanticVersion(projectName: string, policy?: VersionU
   return [major, minor, upgradedPatch].join('.')
 }
 
+/**
+ * 异常处理装饰器
+ * todo
+ */
 export function exceptionHandler() {
-  
+
 }
