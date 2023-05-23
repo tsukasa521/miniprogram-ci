@@ -9,7 +9,15 @@ interface IConfiguration {
   load: (configPath: string) => Promise<ConfigurationOptions>
 }
 
+/**
+ * 从Json读取用户的配置文件
+ */
 class JsonConfiguration implements IConfiguration {
+  /**
+   * 读取配置文件
+   * @param configPath 配置文件路径 
+   * @returns 
+   */
   load = async (configPath: string) => {
     if (!configPath) {
       throw new Error('找不到配置文件')

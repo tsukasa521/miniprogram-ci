@@ -15,6 +15,9 @@ export interface IDatabase {
   T_MINIPROGRAM_PROJECT: ITable<T_Miniprogram_Project>
 }
 
+/**
+ * 用Json文件持久化
+ */
 export class JsonDatabase implements IDatabase {
   connectionString: string
 
