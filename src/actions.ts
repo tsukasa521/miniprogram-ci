@@ -4,9 +4,6 @@ import { PublishMiniprogramActionOptions, listConfigActionOptions } from './type
 import { exceptionHandler } from './util';
 
 export default class {
-
-
-
   /**
    * 发布小程序
    * @param projectName 小程序项目名 
