@@ -1,4 +1,5 @@
 import chalk from "chalk";
+import { Command } from "commander";
 import util from "util";
 
 export class Logger {
@@ -19,12 +20,16 @@ export class Logger {
   }
 
   private static innerLog(message: any) {
+
     if (Array.isArray(message)) {
       return message.map(p => {
-        if (typeof p === 'object') {
+        if (p instanceof Command) {
+          return 'Command'
+        } else if (typeof p === 'object') {
           const output = util.inspect(p, { colors: true })
           return output
-        } else {
+        }
+        else {
           return p
         }
       })

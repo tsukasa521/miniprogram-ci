@@ -1,4 +1,5 @@
 import { DATABASE } from './database'
+import { Logger } from './logger'
 import { VersionUpdatePolicy } from './types'
 
 /**
@@ -43,8 +44,24 @@ export async function nextSemanticVersion(projectName: string, policy?: VersionU
 
 /**
  * 异常处理装饰器
- * todo
  */
 export function exceptionHandler() {
+  return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
+    const originalMethod = descriptor.value;
 
+    descriptor.value = function (...args: any[]) {
+      Logger.debug('输入参数:', ...args)
+      try {
+        const result = originalMethod.apply(this, args);
+        if (result && result instanceof Promise) {
+          return result.catch((error: any) => {
+            Logger.error((error as Error).message)
+          });
+        }
+        return result;
+      } catch (error: any) {
+        Logger.error((error as Error).message);
+      }
+    }
+  }
 }
