@@ -20,7 +20,7 @@ jest.mock('../src/database.ts', () => {
       update: (content: object) => { }
     }
   }
-  
+
   return {
     DATABASE: new MockDatabase("")
   }
@@ -39,4 +39,13 @@ test('[validateSemanticVersion] invalid input', () => {
 test('[nextSemanticVersion] odd policy', async () => {
   const v = await nextSemanticVersion('p1')
   expect(v).toEqual('0.0.3')
+});
+
+test('[nextSemanticVersion project not exist] ', async () => {
+  try {
+    await nextSemanticVersion('p2')
+  } catch (error) {
+    expect(error).toBeInstanceOf(Error)
+    expect((error as Error).message).toEqual('请确认项目p2是否设置了版本号')
+  }
 });
