@@ -1,6 +1,7 @@
 import packageJson from '../package.json'
 import { program } from 'commander'
 import Actions from './actions'
+import { init } from './database'
 
 const actions = new Actions()
 
@@ -40,4 +41,5 @@ function main() {
   program.parse()
 }
 
+init()
 main()

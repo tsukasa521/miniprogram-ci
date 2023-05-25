@@ -37,9 +37,9 @@ export class JsonDatabase implements IDatabase {
 
 export let DATABASE: IDatabase
 
-function init() {
-  const dbDir = path.resolve(__dirname, './db')
-  const dbFile = path.resolve(__dirname, './db/db.json')
+export function init() {
+  const dbDir = path.resolve(process.cwd(), './db')
+  const dbFile = path.resolve(process.cwd(), './db/db.json')
   if (!fs.existsSync(dbDir)) {
     fs.mkdirSync(dbDir)
   }
@@ -51,5 +51,3 @@ function init() {
 
   DATABASE = new JsonDatabase(dbFile)
 }
-
-init()
