@@ -2,6 +2,7 @@ import { resolve } from 'path'
 import fs from 'fs'
 import { ICreateProjectOptions } from 'miniprogram-ci/dist/@types/ci/project'
 import { ConfigurationOptions } from './types'
+import { isEmptyObject } from './util'
 
 export let CONFIGURATION: IConfiguration
 
@@ -31,18 +32,23 @@ class JsonConfiguration implements IConfiguration {
 
     const importConfigFile = (await import(path)).default
 
+    if(isEmptyObject(importConfigFile)){
+      throw new Error('配置文件为空')
+    }
+
     const initialValue: ConfigurationOptions = {}
     const o = Object.entries(importConfigFile).reduce((prev, [k, v]: [string, any]) => {
       const appid = v['appid']
       const type = v['type']
       const projectPath = v['projectPath']
       const privateKeyPath = v['privateKeyPath']
+      const ignores = v['ignores']
 
       if (!appid || !projectPath || !privateKeyPath) {
         throw new Error('配置文件缺少必要配置')
       }
 
-      const options: ICreateProjectOptions = { appid, type: type || 'miniProgram', projectPath, privateKeyPath, ignores: ['node_modules/**/*'] }
+      const options: ICreateProjectOptions = { appid, type: type || 'miniProgram', projectPath, privateKeyPath, ignores: ignores || ['node_modules/**/*'] }
       prev[k] = options
 
       return prev

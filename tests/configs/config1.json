@@ -1,0 +1,7 @@
+{
+  "project1": {
+    "appid": "wx1234567890",
+    "projectPath": "./tests",
+    "privateKeyPath": "./tests/private.wx1234567890.key"
+  }
+}

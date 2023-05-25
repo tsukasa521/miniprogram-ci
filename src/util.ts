@@ -42,6 +42,11 @@ export async function nextSemanticVersion(projectName: string, policy?: VersionU
   return [major, minor, upgradedPatch].join('.')
 }
 
+export function isEmptyObject(obj: any) {
+  if (obj && Object.keys(obj).length === 0 && obj.constructor === Object) return true
+  return false
+}
+
 /**
  * 异常处理装饰器
  */
