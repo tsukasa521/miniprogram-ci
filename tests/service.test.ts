@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import { IDatabase } from "../src/database";
 import { T_Miniprogram_Project } from "../src/types";
 import { getConfigList } from "../src/services";
@@ -35,6 +36,12 @@ jest.mock('../src/miniprogramCi.ts', () => {
 })
 
 test('[getConfigList] standard', async () => {
-  // const spy = jest.spyOn(console, 'log')
+  const spy = jest.spyOn(console, 'log')
   await getConfigList({})
+  expect(spy).toHaveBeenCalledWith(`┌─────────┬────────┬─────────┐
+  │ (index) │ 项目名  │ 版本号  │
+  ├─────────┼────────┼─────────┤
+  │    0    │  'p1'  │ '0.0.1' │
+  └─────────┴────────┴─────────┘`)
+  spy.mockRestore()
 });
