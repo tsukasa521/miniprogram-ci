@@ -36,12 +36,11 @@ jest.mock('../src/miniprogramCi.ts', () => {
 })
 
 test('[getConfigList] standard', async () => {
-  const spy = jest.spyOn(console, 'log')
+  console.table = jest.fn()
   await getConfigList({})
-  expect(spy).toHaveBeenCalledWith(`┌─────────┬────────┬─────────┐
-  │ (index) │ 项目名  │ 版本号  │
-  ├─────────┼────────┼─────────┤
-  │    0    │  'p1'  │ '0.0.1' │
-  └─────────┴────────┴─────────┘`)
-  spy.mockRestore()
+  const logTable = console.table as any
+
+  const expectValue = [{ "版本号": "0.0.1", "项目名": "p1" }]
+
+  expect(logTable.mock.calls[0][0]).toEqual(expectValue)
 });
