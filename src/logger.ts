@@ -3,20 +3,18 @@ import { Command } from "commander";
 import util from "util";
 
 export class Logger {
-  constructor() {
+  constructor() { }
 
+  static debug(message?: any, ...optionalParams: any[]) {
+    console.debug(message, ...optionalParams)
   }
 
-  static debug(...message: any[]) {
-    console.log(chalk.blueBright(this.innerLog(message)))
+  static info(message?: any, ...optionalParams: any[]) {
+    console.info(message, ...optionalParams)
   }
 
-  static info(...message: any[]) {
-    console.log(chalk.greenBright(this.innerLog(message)))
-  }
-
-  static error(...message: any[]) {
-    console.error(chalk.red(this.innerLog(message)))
+  static error(message?: any, ...optionalParams: any[]) {
+    console.error(message, ...optionalParams)
   }
 
   private static innerLog(message: any) {

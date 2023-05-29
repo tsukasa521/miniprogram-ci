@@ -1,6 +1,5 @@
 import fs from 'fs'
 import path from 'path';
-import chalk from 'chalk';
 import { rimrafSync } from "rimraf";
 import { JsonDatabase, init } from "../src/database";
 import { isEmptyObject } from '../src/util';
@@ -16,10 +15,10 @@ afterAll(async () => {
 })
 
 test('[init] standard', async () => {
-  const spy = jest.spyOn(console, 'log')
+  const spy = jest.spyOn(console, 'info')
 
   init()
-  expect(spy).toHaveBeenCalledWith(chalk.greenBright('数据库初始化成功!'))
+  expect(spy).toHaveBeenCalledWith('数据库初始化成功!')
   expect(fs.existsSync(path.resolve(process.cwd(), 'db'))).toBeTruthy()
   expect(fs.existsSync(path.resolve(process.cwd(), 'db', 'db.json'))).toBeTruthy()
 

@@ -1,4 +1,3 @@
-import chalk from "chalk";
 import { IDatabase } from "../src/database";
 import { T_Miniprogram_Project } from "../src/types";
 import { getConfigList } from "../src/services";
@@ -43,4 +42,15 @@ test('[getConfigList] standard', async () => {
   const expectValue = [{ "版本号": "0.0.1", "项目名": "p1" }]
 
   expect(logTable.mock.calls[0][0]).toEqual(expectValue)
+});
+
+test('[getConfigList] raw = true', async () => {
+  console.info = jest.fn()
+  
+  await getConfigList({ raw: true })
+  
+  const expectValue = { p1: { version: '0.0.1' } }
+  
+  const logMock = console.info as any
+  expect(logMock.mock.calls[0][0]).toEqual(expectValue)
 });
