@@ -1,6 +1,6 @@
 import { IDatabase } from "../src/database";
 import { T_Miniprogram_Project } from "../src/types";
-import { getConfigList } from "../src/services";
+import { getConfigList, updateVersion } from "../src/services";
 import { ICreateProjectOptions } from "miniprogram-ci/dist/@types/ci/project";
 
 jest.mock('../src/database.ts', () => {
@@ -44,13 +44,32 @@ test('[getConfigList] standard', async () => {
   expect(logTable.mock.calls[0][0]).toEqual(expectValue)
 });
 
+test('[getConfigList] raw = false', async () => {
+  console.table = jest.fn()
+  await getConfigList({ raw: false })
+  const logTable = console.table as any
+
+  const expectValue = [{ "版本号": "0.0.1", "项目名": "p1" }]
+
+  expect(logTable.mock.calls[0][0]).toEqual(expectValue)
+});
+
 test('[getConfigList] raw = true', async () => {
   console.info = jest.fn()
-  
+
   await getConfigList({ raw: true })
-  
+
   const expectValue = { p1: { version: '0.0.1' } }
-  
+
   const logMock = console.info as any
   expect(logMock.mock.calls[0][0]).toEqual(expectValue)
+});
+
+test('[updateVersion] standard', async () => {
+  console.info = jest.fn()
+
+  await updateVersion({ projectName: 'p1', version: '0.0.3' })
+
+  const logMock = console.info as any
+  expect(logMock.mock.calls[0][0]).toEqual("更新成功, 从0.0.1 -> 0.0.3")
 });
