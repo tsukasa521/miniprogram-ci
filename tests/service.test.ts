@@ -65,11 +65,20 @@ test('[getConfigList] raw = true', async () => {
   expect(logMock.mock.calls[0][0]).toEqual(expectValue)
 });
 
-test('[updateVersion] standard', async () => {
+test('[updateVersion] standard update', async () => {
   console.info = jest.fn()
 
   await updateVersion({ projectName: 'p1', version: '0.0.3' })
 
   const logMock = console.info as any
   expect(logMock.mock.calls[0][0]).toEqual("更新成功, 从0.0.1 -> 0.0.3")
+});
+
+test('[updateVersion] standard create', async () => {
+  console.info = jest.fn()
+
+  await updateVersion({ projectName: 'p2', version: '0.0.1' })
+
+  const logMock = console.info as any
+  expect(logMock.mock.calls[0][0]).toEqual("新建成功, 0.0.1")
 });
