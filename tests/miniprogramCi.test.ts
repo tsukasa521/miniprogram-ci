@@ -2,7 +2,7 @@ import { IUploadOptions } from "miniprogram-ci";
 import { uploadMiniprogram } from "../src/miniprogramCi";
 import { TPluginInfo, TSubPackageInfo } from "miniprogram-ci/dist/@types/ci/upload";
 
-
+// todo
 jest.mock('miniprogram-ci', () => {
   return {
     Project: class {

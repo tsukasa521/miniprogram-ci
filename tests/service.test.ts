@@ -1,6 +1,6 @@
 import { IDatabase } from "../src/database";
-import { T_Miniprogram_Project } from "../src/types";
-import { getConfigList, updateVersion } from "../src/services";
+import { ConfigurationOptions, T_Miniprogram_Project } from "../src/types";
+import { getConfigList, publishMiniprogram, updateVersion } from "../src/services";
 import { ICreateProjectOptions } from "miniprogram-ci/dist/@types/ci/project";
 
 jest.mock('../src/database.ts', () => {
@@ -24,6 +24,19 @@ jest.mock('../src/database.ts', () => {
 
   return {
     DATABASE: new MockDatabase("")
+  }
+})
+
+jest.mock('../src/configuration.ts', () => {
+  return {
+    CONFIGURATION: {
+      load: (configPath: string): Promise<ConfigurationOptions> => {
+        return new Promise((resolve, reject) => {
+          const options:ConfigurationOptions ={} 
+          resolve(options)
+        })
+      }
+    }
   }
 })
 
@@ -78,6 +91,16 @@ test('[updateVersion] standard create', async () => {
   console.info = jest.fn()
 
   await updateVersion({ projectName: 'p2', version: '0.0.1' })
+
+  const logMock = console.info as any
+  expect(logMock.mock.calls[0][0]).toEqual("新建成功, 0.0.1")
+});
+
+
+test('[publishMiniprogram] standard', async () => {
+  console.info = jest.fn()
+
+  await publishMiniprogram({ projectName: 'p1', config: '' })
 
   const logMock = console.info as any
   expect(logMock.mock.calls[0][0]).toEqual("新建成功, 0.0.1")
