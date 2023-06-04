@@ -1,7 +1,17 @@
 import { ICreateProjectOptions } from "miniprogram-ci/dist/@types/ci/project"
 
+export type ProjectType = 'miniProgram' | 'miniGame' | 'miniProgramPlugin' | 'miniGamePlugin';
+
 export type T_Miniprogram_Project = {
-  [key: string]: { version: string }
+  [projectName: string]: {
+    version: string;
+    projectPath: string;
+    type: ProjectType;
+    appid: string;
+    privateKey?: string;
+    privateKeyPath?: string;
+    ignores?: string[];
+  }
 }
 
 export type ConfigurationOptions = {
