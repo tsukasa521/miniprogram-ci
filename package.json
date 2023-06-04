@@ -15,7 +15,7 @@
     "dev": "cross-env NODE_ENV=development rollup -c -w",
     "build": "rimraf dist && cross-env NODE_ENV=production rollup -c",
     "test": "jest",
-    "test:upload": "cross-env mock=true node dist/index.js upload project1 ./tests/config.json"
+    "test:upload": "cross-env MOCK_ENV=mock node dist/index.js upload project1 ./tests/config.json"
   },
   "keywords": [
     "wechat",

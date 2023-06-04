@@ -7,7 +7,8 @@ import { Logger } from './logger'
  */
 export const MiniprogramCi = new Proxy(ci, {
   get(target, p, receiver) {
-    if (process.env.mock) {
+    
+    if (process.env.MOCK_ENV == 'mock') {
       if (p == 'Project') {
         return class {
           constructor(options: any) { }
