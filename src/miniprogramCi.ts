@@ -1,6 +1,6 @@
 import ci, { IUploadOptions } from 'miniprogram-ci'
-import { ICreateProjectOptions } from 'miniprogram-ci/dist/@types/ci/project'
 import { Logger } from './logger'
+import { MiniprogramProject } from './types'
 
 /**
  * 对微信小程序官方发布类做的代理类
@@ -32,19 +32,13 @@ export const MiniprogramCi = new Proxy(ci, {
  * @param desc 
  * @param robot 
  */
-export async function uploadMiniprogram(
-  projectOption: ICreateProjectOptions,
-  version: string, desc?: string, robot?: number
-) {
-  const project = new MiniprogramCi.Project(projectOption)
-
-  const uploadResult = await MiniprogramCi.upload({
-    project,
-    version,
-    desc: desc || version,
-    robot: robot || 1,
-    onProgressUpdate: console.log,
+export async function uploadMiniprogram(miniprogramProject: MiniprogramProject, version: string, desc: string, robot: number) {
+  const project = new MiniprogramCi.Project({
+    appid: miniprogramProject.appid, projectPath: miniprogramProject.projectPath, privateKey: miniprogramProject.privateKey, privateKeyPath: miniprogramProject.privateKeyPath, type: miniprogramProject.type,
+    ignores: miniprogramProject.ignores
   })
+
+  const uploadResult = await MiniprogramCi.upload({ project, version, desc, robot, onProgressUpdate: console.log })
 
   // todo 美化输出上传结构
   Logger.info('上传结果', uploadResult)

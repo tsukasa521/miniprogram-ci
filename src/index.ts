@@ -16,7 +16,6 @@ function main() {
     .command('upload')
     .description('上传代码')
     .argument('<project name>', '保存在配置中的小程序项目名')
-    .argument('<config path>', '配置文件地址') // todo 不需要config了
     .option('--publish-version <publish version>', '发布的版本号')
     .option('--desc <desc>', '发布时的描述, 默认会设置为版本号')
     .option('--robot <robot>', '指定使用哪一个 ci 机器人', '1')

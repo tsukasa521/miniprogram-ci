@@ -1,6 +1,6 @@
 import { Logger } from './logger';
 import { publishMiniprogram, createProject, getProjectList, updateProject } from './services';
-import { CreateUpdateProjectOptions, PublishMiniprogramActionOptions, listConfigActionOptions } from './types';
+import { CreateProjectOptions, PublishMiniprogramOptions, UpdateProjectOptions, listProjectOptions } from './types';
 import { exceptionHandler } from './util';
 
 export default class {
@@ -11,8 +11,8 @@ export default class {
    * @param options 
    */
   @exceptionHandler()
-  async publishMiniprogramProjectAction(projectName: string, config: string, options: PublishMiniprogramActionOptions) {
-    await publishMiniprogram({ projectName, config, publishVersion: options.publishVersion, desc: options.desc, robot: options.robot, policy: options.policy })
+  async publishMiniprogramProjectAction(projectName: string, options: PublishMiniprogramOptions) {
+    await publishMiniprogram(projectName, options)
   }
 
   /**
@@ -20,12 +20,12 @@ export default class {
    * @param options 
    */
   @exceptionHandler()
-  async listProjectAction(options: listConfigActionOptions) {
+  async listProjectAction(options: listProjectOptions) {
     await getProjectList(options)
   }
 
   @exceptionHandler()
-  async createProjectAction(projectName: string, options: CreateUpdateProjectOptions) {
+  async createProjectAction(projectName: string, options: CreateProjectOptions) {
     await createProject(projectName, options)
   }
 
@@ -36,7 +36,7 @@ export default class {
    * @param version 想要新建/更新的版本号
    */
   @exceptionHandler()
-  async updateConfigAction(projectName: string, options: CreateUpdateProjectOptions) {
+  async updateConfigAction(projectName: string, options: UpdateProjectOptions) {
     await updateProject(projectName, options)
   }
 }
