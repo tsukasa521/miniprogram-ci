@@ -9,7 +9,7 @@ import { VersionUpdatePolicy } from './types'
  * @param throwErrorMessage 异常信息
  * @returns 
  */
-export function validateSemanticVersion(version: string, throwErrorMessage: string = "") {
+export function validateSemanticVersion(version: string, throwErrorMessage = "") {
   const reg = /^(\d+)\.(\d+)\.(\d+)$/
   if (throwErrorMessage) {
     if (!reg.test(version)) {

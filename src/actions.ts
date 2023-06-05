@@ -40,6 +40,7 @@ export default class {
     await updateProject(projectName, options)
   }
 
+  @exceptionHandler()
   async removeProjectAction(projectName: string) {
     await removeProject(projectName)
   }
