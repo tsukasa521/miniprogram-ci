@@ -3,6 +3,7 @@ import { ICreateProjectOptions } from "miniprogram-ci/dist/@types/ci/project"
 export type ProjectType = 'miniProgram' | 'miniGame' | 'miniProgramPlugin' | 'miniGamePlugin';
 
 export interface MiniprogramProject {
+  // projectName:string, // todo
   version: string;
   projectPath: string;
   type: ProjectType;

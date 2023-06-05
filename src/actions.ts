@@ -1,5 +1,5 @@
 import { Logger } from './logger';
-import { publishMiniprogram, createProject, getProjectList, updateProject } from './services';
+import { publishMiniprogram, createProject, getProjectList, updateProject, removeProject } from './services';
 import { CreateProjectOptions, PublishMiniprogramOptions, UpdateProjectOptions, listProjectOptions } from './types';
 import { exceptionHandler } from './util';
 
@@ -36,7 +36,11 @@ export default class {
    * @param version 想要新建/更新的版本号
    */
   @exceptionHandler()
-  async updateConfigAction(projectName: string, options: UpdateProjectOptions) {
+  async updateProjectAction(projectName: string, options: UpdateProjectOptions) {
     await updateProject(projectName, options)
+  }
+
+  async removeProjectAction(projectName: string) {
+    await removeProject(projectName)
   }
 }

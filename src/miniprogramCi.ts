@@ -7,7 +7,7 @@ import { MiniprogramProject } from './types'
  */
 export const MiniprogramCi = new Proxy(ci, {
   get(target, p, receiver) {
-    
+
     if (process.env.MOCK_ENV == 'mock') {
       if (p == 'Project') {
         return class {
@@ -40,6 +40,8 @@ export async function uploadMiniprogram(miniprogramProject: MiniprogramProject, 
 
   const uploadResult = await MiniprogramCi.upload({ project, version, desc, robot, onProgressUpdate: console.log })
 
-  // todo 美化输出上传结构
-  Logger.info('上传结果', uploadResult)
+  // todo 验证是否上传成功
+  Logger.info('上传成功')
+
+  Logger.debug('uploadResult', uploadResult)
 }

@@ -2,7 +2,7 @@ import { DATABASE } from "./database"
 import { nextSemanticVersion, validateSemanticVersion } from "./util"
 import { uploadMiniprogram } from "./miniprogramCi"
 import { CONFIGURATION } from "./configuration"
-import { CreateProjectOptions, PublishMiniprogramOptions, UpdateProjectOptions, listProjectOptions } from "./types"
+import { CreateProjectOptions, MiniprogramProject, PublishMiniprogramOptions, UpdateProjectOptions, listProjectOptions } from "./types"
 import { Logger } from "./logger"
 
 /**
@@ -15,24 +15,21 @@ export async function publishMiniprogram(projectName: string, options: PublishMi
   const desc: string = options.desc || version
   const robot: number = options.robot || 1
 
-  Logger.info(`准备开始上传小程序，版本号: ${version}`)
+  Logger.info(`准备开始上传 ${projectName} 小程序，版本号: ${version}`)
   // Logger.debug('上传参数:', configuration[projectName])
 
 
   const project = await getProjectByName(projectName)
+
+  if (!project) throw new Error() //todo
 
   await uploadMiniprogram(project, version, desc, robot)
 
   await updateProject(projectName, { projectVersion: version })
 }
 
-export async function getProjectByName(projectName: string) {
+async function getProjectByName(projectName: string): Promise<MiniprogramProject | undefined> {
   const db = await DATABASE.T_MINIPROGRAM_PROJECT.list()
-
-  if (!db[projectName]) {
-    // todo 
-  }
-
   return db[projectName]
 }
 
@@ -62,27 +59,41 @@ export async function getProjectList(options: listProjectOptions) {
 }
 
 export async function createProject(projectName: string, options: CreateProjectOptions) {
-  // todo 验证重复
+  // 验证重复
+  const project = await getProjectByName(projectName)
+  if (project) throw new Error() //todo
 
-  // todo 验证必填项
+  // 验证必填项
+  if (!options.appid || !options.projectPath) {
+    throw new Error() //todo
+  }
 
-  validateSemanticVersion(options.projectVersion, '版本号不符合Semantic规则')
+  // 默认值
+  let version: string
+  if (options.projectVersion) {
+    validateSemanticVersion(options.projectVersion, '版本号不符合Semantic规则')
+    version = options.projectVersion
+  } else {
+    version = '0.0.0'
+  }
+  const type = options.type || 'miniProgram'
+  const ignores = options.ignores || ['node_modules/**/*']
 
   const db = await DATABASE.T_MINIPROGRAM_PROJECT.list()
 
   db[projectName] = {
     appid: options.appid,
     projectPath: options.projectPath,
-    type: options.type,
-    version: options.projectVersion,
-    ignores: options.ignores,
+    type,
+    version,
+    ignores,
     privateKey: options.privateKey,
     privateKeyPath: options.privateKeyPath
   }
 
   DATABASE.T_MINIPROGRAM_PROJECT.update(db)
 
-  Logger.info(`${projectName} 新建成功, ${options.projectVersion}`);
+  Logger.info(`${projectName} 新建成功, ${version}`);
 }
 
 /**
@@ -90,16 +101,37 @@ export async function createProject(projectName: string, options: CreateProjectO
  * @param options 
  */
 export async function updateProject(projectName: string, options: UpdateProjectOptions) {
-  // todo 验证项目是否存在
+  const project = await getProjectByName(projectName)
 
-  validateSemanticVersion(options.projectVersion || '', '版本号不符合Semantic规则')
+  // 验证项目是否存在
+  if (!project) throw new Error() //todo
+
 
   const db = await DATABASE.T_MINIPROGRAM_PROJECT.list()
 
-  const originalVersion = db[projectName].version
-  db[projectName].version = options.projectVersion || ''
+  if (options.projectVersion) {
+    validateSemanticVersion(options.projectVersion || '', '版本号不符合Semantic规则')
+    db[projectName].version = options.projectVersion || ''
+  }
+
+  // todo 对其他字段进行更新
 
   DATABASE.T_MINIPROGRAM_PROJECT.update(db)
 
-  Logger.info(`${projectName} 更新成功, 从${originalVersion} -> ${options.projectVersion}`)
+  Logger.info(`${projectName} 更新成功`)
+}
+
+export async function removeProject(projectName: string) {
+  const project = await getProjectByName(projectName)
+
+  // 验证项目是否存在
+  if (!project) throw new Error() //todo
+
+  const db = await DATABASE.T_MINIPROGRAM_PROJECT.list()
+
+  delete db[projectName]
+
+  DATABASE.T_MINIPROGRAM_PROJECT.update(db)
+
+  Logger.info(`${projectName} 删除成功`)
 }

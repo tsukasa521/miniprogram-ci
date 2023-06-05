@@ -10,7 +10,7 @@ function main() {
     .name('mp-ci')
     .description(packageJson.description)
     .version(packageJson.version)
-    .option('--verbose', '开启log')
+    .option('--verbose', '开启更多的log')
 
   program
     .command('upload')
@@ -56,7 +56,13 @@ function main() {
     .option('--private-key <privateKey>', '私钥的内容，（创建 Project 对象，需要传入私钥内容或私钥文件路径）')
     .option('--private-key-path <privateKeyPath>', '私钥文件的路径，（创建 Project 对象，需要传入私钥内容或私钥文件路径）')
     .option('--ignores', '指定需要排除的规则')
-    .action(actions.updateConfigAction)
+    .action(actions.updateProjectAction)
+
+  configCommand
+    .command('rm')
+    .description('删除小程序项目')
+    .argument('<project name>', '小程序项目名')
+    .action(actions.removeProjectAction)
 
   program.parse()
 }
