@@ -6,6 +6,7 @@ export class Logger {
   constructor() { }
 
   static debug(message?: any, ...optionalParams: any[]) {
+    // todo 处理 Command 
     console.debug(message, ...optionalParams)
   }
 

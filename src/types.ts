@@ -38,6 +38,16 @@ export interface listConfigActionOptions {
 
 export interface listConfigOptions extends listConfigActionOptions { }
 
+export type CreateUpdateProjectOptions = {
+  projectVersion: string // 想要更新的版本号
+  projectPath: string;
+  type: ProjectType;
+  appid: string;
+  privateKey?: string;
+  privateKeyPath?: string;
+  ignores?: string[];
+}
+
 export type UpdateVersionOptions = {
   projectName: string, // 小程序项目名
   version: string // 想要更新的版本号

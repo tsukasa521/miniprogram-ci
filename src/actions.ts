@@ -1,6 +1,6 @@
 import { Logger } from './logger';
-import { getConfigList, updateVersion, publishMiniprogram } from './services';
-import { PublishMiniprogramActionOptions, listConfigActionOptions } from './types';
+import { publishMiniprogram, createProject, getProjectList, updateProject } from './services';
+import { CreateUpdateProjectOptions, PublishMiniprogramActionOptions, listConfigActionOptions } from './types';
 import { exceptionHandler } from './util';
 
 export default class {
@@ -20,8 +20,13 @@ export default class {
    * @param options 
    */
   @exceptionHandler()
-  async listConfigAction(options: listConfigActionOptions) {
-    await getConfigList(options)
+  async listProjectAction(options: listConfigActionOptions) {
+    await getProjectList(options)
+  }
+
+  @exceptionHandler()
+  async createProjectAction(projectName: string, options: CreateUpdateProjectOptions) {
+    await createProject(projectName, options)
   }
 
   /**
@@ -31,7 +36,7 @@ export default class {
    * @param version 想要新建/更新的版本号
    */
   @exceptionHandler()
-  async updateConfigAction(projectName: string, version: string) {
-    await updateVersion({ projectName, version })
+  async updateConfigAction(projectName: string, options: CreateUpdateProjectOptions) {
+    await updateProject(projectName, options)
   }
 }

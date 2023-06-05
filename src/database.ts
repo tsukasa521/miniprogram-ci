@@ -11,7 +11,7 @@ interface ITable<T> {
 
 export interface IDatabase {
   connectionString: string
-  
+
   T_MINIPROGRAM_PROJECT: ITable<T_Miniprogram_Project>
 }
 
@@ -38,8 +38,8 @@ export class JsonDatabase implements IDatabase {
 export let DATABASE: IDatabase
 
 export function init() {
-  const dbDir = path.resolve(process.cwd(), './db')
-  const dbFile = path.resolve(process.cwd(), './db/db.json')
+  const dbDir = path.resolve(__dirname, './db')
+  const dbFile = path.resolve(__dirname, './db/db.json')
   if (!fs.existsSync(dbDir)) {
     fs.mkdirSync(dbDir)
   }

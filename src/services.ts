@@ -2,7 +2,7 @@ import { DATABASE } from "./database"
 import { nextSemanticVersion, validateSemanticVersion } from "./util"
 import { uploadMiniprogram } from "./miniprogramCi"
 import { CONFIGURATION } from "./configuration"
-import { PublishMiniprogramOptions, UpdateVersionOptions, listConfigOptions } from "./types"
+import { CreateUpdateProjectOptions, PublishMiniprogramOptions, UpdateVersionOptions, listConfigOptions } from "./types"
 import { Logger } from "./logger"
 
 /**
@@ -30,49 +30,73 @@ export async function publishMiniprogram(
 
   await uploadMiniprogram(configuration[projectName], version, desc, robot)
 
-  await updateVersion({ projectName, version })
+  // await updateVersion({ projectName, version })
 }
 
 /**
  * 列表显示所有小程序项目
  * @param options 
  */
-export async function getConfigList(options: listConfigOptions) {
+export async function getProjectList(options: listConfigOptions) {
   const db = await DATABASE.T_MINIPROGRAM_PROJECT.list()
   if (options.raw) {
     Logger.info(db);
   } else {
     const displayDb = Object.entries(db).map(([k, v]) => {
-      return { '项目名': k, '版本号': v.version }
+      return {
+        '项目名': k,
+        '版本号': v.version || '--',
+        'appid': v.appid || '--',
+        'type': v.type || '--',
+        'projectPath': v.projectPath || '--',
+        'privateKey': v.privateKey || '--',
+        'privateKeyPath': v.privateKeyPath || '--',
+        'ignores': v.ignores || '--'
+      }
     })
     console.table(displayDb)
   }
 }
 
-/**
- * 更新版本号
- * @param options 
- */
-export async function updateVersion(options: UpdateVersionOptions) {
+export async function createProject(projectName: string, options: CreateUpdateProjectOptions) {
+  // todo 验证重复
 
-  const { projectName, version } = options
-  validateSemanticVersion(version, '版本号不符合Semantic规则')
+  // todo 验证必填项
 
-  let originalVersion = ''
+  validateSemanticVersion(options.projectVersion, '版本号不符合Semantic规则')
+
   const db = await DATABASE.T_MINIPROGRAM_PROJECT.list()
 
-  // 如果项目存在就更新,如果项目不存在就新建
-  if (db[projectName]) {
-    originalVersion = db[projectName].version
-    db[projectName].version = version
-  } else {
-    db[projectName] = { version }
+  db[projectName] = {
+    appid: options.appid,
+    projectPath: options.projectPath,
+    type: options.type,
+    version: options.projectVersion,
+    ignores: options.ignores,
+    privateKey: options.privateKey,
+    privateKeyPath: options.privateKeyPath
   }
 
   DATABASE.T_MINIPROGRAM_PROJECT.update(db)
-  if (originalVersion) {
-    Logger.info(`更新成功, 从${originalVersion} -> ${version}`)
-  } else {
-    Logger.info(`新建成功, ${version}`);
-  }
+
+  Logger.info(`${projectName} 新建成功, ${options.projectVersion}`);
+}
+
+/**
+ * 
+ * @param options 
+ */
+export async function updateProject(projectName: string, options: CreateUpdateProjectOptions) {
+  // todo 验证项目是否存在
+
+  validateSemanticVersion(options.projectVersion, '版本号不符合Semantic规则')
+  
+  const db = await DATABASE.T_MINIPROGRAM_PROJECT.list()
+  
+  const originalVersion = db[projectName].version
+  db[projectName].version = options.projectVersion
+
+  DATABASE.T_MINIPROGRAM_PROJECT.update(db)
+
+  Logger.info(`${projectName} 更新成功, 从${originalVersion} -> ${options.projectVersion}`)
 }
