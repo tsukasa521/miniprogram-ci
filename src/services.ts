@@ -63,7 +63,7 @@ export async function createProject(projectName: string, options: CreateProjectO
   if (project) throw new Error('项目已存在')
 
   // 验证必填项
-  if (!options.appid || !options.projectPath || !(options.privateKey && options.privateKeyPath)) {
+  if (!options.appid || !options.projectPath || (!options.privateKey && !options.privateKeyPath)) {
     throw new Error('appid projectPath 为必填项, privateKey 和 privateKeyPath 中至少选择一项')
   }
 
