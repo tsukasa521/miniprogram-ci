@@ -55,7 +55,7 @@ export function exceptionHandler() {
     const originalMethod = descriptor.value;
 
     descriptor.value = function (...args: any[]) {
-      // Logger.debug('输入参数:', ...args)
+      Logger.debug('输入参数:', ...args)
       try {
         const result = originalMethod.apply(this, args);
         if (result && result instanceof Promise) {

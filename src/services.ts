@@ -18,10 +18,9 @@ export async function publishMiniprogram(projectName: string, options: PublishMi
   Logger.info(`准备开始上传 ${projectName} 小程序，版本号: ${version}`)
   // Logger.debug('上传参数:', configuration[projectName])
 
-
   const project = await getProjectByName(projectName)
 
-  if (!project) throw new Error() //todo
+  if (!project) throw new Error('项目不存在')
 
   await uploadMiniprogram(project, version, desc, robot)
 
@@ -61,11 +60,11 @@ export async function getProjectList(options: listProjectOptions) {
 export async function createProject(projectName: string, options: CreateProjectOptions) {
   // 验证重复
   const project = await getProjectByName(projectName)
-  if (project) throw new Error() //todo
+  if (project) throw new Error('项目已存在')
 
   // 验证必填项
-  if (!options.appid || !options.projectPath) {
-    throw new Error() //todo
+  if (!options.appid || !options.projectPath || !(options.privateKey && options.privateKeyPath)) {
+    throw new Error('appid projectPath 为必填项, privateKey 和 privateKeyPath 中至少选择一项')
   }
 
   // 默认值
@@ -104,7 +103,7 @@ export async function updateProject(projectName: string, options: UpdateProjectO
   const project = await getProjectByName(projectName)
 
   // 验证项目是否存在
-  if (!project) throw new Error() //todo
+  if (!project) throw new Error('项目不存在')
 
 
   const db = await DATABASE.T_MINIPROGRAM_PROJECT.list()
@@ -125,7 +124,7 @@ export async function removeProject(projectName: string) {
   const project = await getProjectByName(projectName)
 
   // 验证项目是否存在
-  if (!project) throw new Error() //todo
+  if (!project) throw new Error('项目不存在')
 
   const db = await DATABASE.T_MINIPROGRAM_PROJECT.list()
 

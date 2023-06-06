@@ -3,11 +3,18 @@ import { Command } from "commander";
 import util from "util";
 
 export class Logger {
-  constructor() { }
 
   static debug(message?: any, ...optionalParams: any[]) {
-    // todo 处理 Command 
-    console.debug(message, ...optionalParams)
+    // 去掉Command对象的显示
+    const p = optionalParams.map(p => {
+      if (p instanceof Command) {
+        return 'Command'
+      }else {
+        return p
+      }
+    })
+
+    console.debug(message, ...p)
   }
 
   static info(message?: any, ...optionalParams: any[]) {

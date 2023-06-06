@@ -42,9 +42,8 @@ function main() {
     .option('--private-key <privateKey>', '私钥的内容，（创建 Project 对象，需要传入私钥内容或私钥文件路径）')
     .option('--private-key-path <privateKeyPath>', '私钥文件的路径，（创建 Project 对象，需要传入私钥内容或私钥文件路径）')
     .option('--ignores', '指定需要排除的规则')
-    .action(actions.createProjectAction) // todo 新建时调用新增方法
+    .action(actions.createProjectAction)
 
-  // todo 每个字段都可以修改
   configCommand
     .command('update')
     .description('修改小程序项目')
