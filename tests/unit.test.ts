@@ -13,7 +13,14 @@ jest.mock('../src/database.ts', () => {
     T_MINIPROGRAM_PROJECT = {
       list: async () => {
         const t: T_Miniprogram_Project = {
-          p1: { version: '0.0.1' }
+          p1: {
+            projectName: 'p1',
+            version: '0.0.1',
+            appid: 'wx1234567890',
+            type: 'miniProgram',
+            projectPath: './tests',
+            privateKeyPath: './tests/private.wx1234567890.key'
+          }
         }
         return t
       },

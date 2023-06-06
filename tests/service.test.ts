@@ -1,6 +1,6 @@
 import { IDatabase } from "../src/database";
-import { ConfigurationOptions, T_Miniprogram_Project } from "../src/types";
-import { getConfigList, publishMiniprogram, updateVersion } from "../src/services";
+import { T_Miniprogram_Project } from "../src/types";
+import { createProject, getProjectList, publishMiniprogram, updateProject } from "../src/services";
 import { ICreateProjectOptions } from "miniprogram-ci/dist/@types/ci/project";
 
 jest.mock('../src/database.ts', () => {
@@ -14,7 +14,14 @@ jest.mock('../src/database.ts', () => {
     T_MINIPROGRAM_PROJECT = {
       list: async () => {
         const t: T_Miniprogram_Project = {
-          p1: { version: '0.0.1' }
+          p1: {
+            projectName: 'p1',
+            version: '0.0.1',
+            appid: 'wx1234567890',
+            type: 'miniProgram',
+            projectPath: './tests',
+            privateKeyPath: './tests/private.wx1234567890.key'
+          }
         }
         return t
       },
@@ -27,19 +34,6 @@ jest.mock('../src/database.ts', () => {
   }
 })
 
-jest.mock('../src/configuration.ts', () => {
-  return {
-    CONFIGURATION: {
-      load: (configPath: string): Promise<ConfigurationOptions> => {
-        return new Promise((resolve, reject) => {
-          const options:ConfigurationOptions ={} 
-          resolve(options)
-        })
-      }
-    }
-  }
-})
-
 jest.mock('../src/miniprogramCi.ts', () => {
   return {
     uploadMiniprogram: (projectOption: ICreateProjectOptions,
@@ -49,7 +43,7 @@ jest.mock('../src/miniprogramCi.ts', () => {
 
 test('[getConfigList] standard', async () => {
   console.table = jest.fn()
-  await getConfigList({})
+  await getProjectList({})
   const logTable = console.table as any
 
   const expectValue = [{ "版本号": "0.0.1", "项目名": "p1" }]
@@ -59,7 +53,7 @@ test('[getConfigList] standard', async () => {
 
 test('[getConfigList] raw = false', async () => {
   console.table = jest.fn()
-  await getConfigList({ raw: false })
+  await getProjectList({ raw: false })
   const logTable = console.table as any
 
   const expectValue = [{ "版本号": "0.0.1", "项目名": "p1" }]
@@ -70,7 +64,7 @@ test('[getConfigList] raw = false', async () => {
 test('[getConfigList] raw = true', async () => {
   console.info = jest.fn()
 
-  await getConfigList({ raw: true })
+  await getProjectList({ raw: true })
 
   const expectValue = { p1: { version: '0.0.1' } }
 
@@ -81,16 +75,22 @@ test('[getConfigList] raw = true', async () => {
 test('[updateVersion] standard update', async () => {
   console.info = jest.fn()
 
-  await updateVersion({ projectName: 'p1', version: '0.0.3' })
+  await updateProject('p1', { projectVersion: '0.0.3' })
 
   const logMock = console.info as any
-  expect(logMock.mock.calls[0][0]).toEqual("更新成功, 从0.0.1 -> 0.0.3")
+  expect(logMock.mock.calls[0][0]).toEqual("p1 更新成功")
 });
 
 test('[updateVersion] standard create', async () => {
   console.info = jest.fn()
 
-  await updateVersion({ projectName: 'p2', version: '0.0.1' })
+  await createProject('p2', {
+    projectVersion: '0.0.1',
+    appid: 'wx1234567890',
+    type: 'miniProgram',
+    projectPath: './tests',
+    privateKeyPath: './tests/private.wx1234567890.key'
+  })
 
   const logMock = console.info as any
   expect(logMock.mock.calls[0][0]).toEqual("新建成功, 0.0.1")
@@ -100,7 +100,7 @@ test('[updateVersion] standard create', async () => {
 test('[publishMiniprogram] standard', async () => {
   console.info = jest.fn()
 
-  await publishMiniprogram({ projectName: 'p1', config: '' })
+  await publishMiniprogram('p1', {})
 
   const logMock = console.info as any
   expect(logMock.mock.calls[0][0]).toEqual("新建成功, 0.0.1")

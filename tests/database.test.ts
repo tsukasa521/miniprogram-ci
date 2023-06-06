@@ -5,7 +5,7 @@ import { JsonDatabase, init } from "../src/database";
 import { isEmptyObject } from '../src/util';
 
 afterAll(async () => {
-  rimrafSync(path.resolve(process.cwd(), 'db'))
+  rimrafSync(path.resolve(process.cwd(), 'src', 'db'))
 
   const db1 = new JsonDatabase(path.resolve(process.cwd(), './tests/db/db1.json'))
   await db1.T_MINIPROGRAM_PROJECT.update({})
@@ -19,8 +19,8 @@ test('[init] standard', async () => {
 
   init()
   expect(spy).toHaveBeenCalledWith('数据库初始化成功!')
-  expect(fs.existsSync(path.resolve(process.cwd(), 'db'))).toBeTruthy()
-  expect(fs.existsSync(path.resolve(process.cwd(), 'db', 'db.json'))).toBeTruthy()
+  expect(fs.existsSync(path.resolve(process.cwd(), 'src', 'db'))).toBeTruthy()
+  expect(fs.existsSync(path.resolve(process.cwd(), 'src', 'db', 'db.json'))).toBeTruthy()
 
   spy.mockRestore();
 });

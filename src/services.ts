@@ -81,6 +81,7 @@ export async function createProject(projectName: string, options: CreateProjectO
   const db = await DATABASE.T_MINIPROGRAM_PROJECT.list()
 
   db[projectName] = {
+    projectName,
     appid: options.appid,
     projectPath: options.projectPath,
     type,
