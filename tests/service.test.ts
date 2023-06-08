@@ -1,7 +1,6 @@
 import { IDatabase } from "../src/database";
 import { MiniprogramProject, T_Miniprogram_Project } from "../src/types";
 import { createProject, getProjectList, publishMiniprogram, updateProject } from "../src/services";
-import { ICreateProjectOptions } from "miniprogram-ci/dist/@types/ci/project";
 
 jest.mock('../src/database.ts', () => {
   class MockDatabase implements IDatabase {
