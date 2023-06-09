@@ -1,7 +1,6 @@
 import { DATABASE } from "./database"
 import { nextSemanticVersion, validateSemanticVersion } from "./util"
 import { uploadMiniprogram } from "./miniprogramCi"
-import { CONFIGURATION } from "./configuration"
 import { CreateProjectOptions, MiniprogramProject, PublishMiniprogramOptions, UpdateProjectOptions, listProjectOptions } from "./types"
 import { Logger } from "./logger"
 
