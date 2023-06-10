@@ -55,17 +55,6 @@
 
 需要知道要发布的那个小程序项目名称和发布的配置文件路径，配置文件的内容与官网包完全一致
 
-示例配置文件：
-```json
-  {
-    "project1": {
-      "appid": "wx1234567890",
-      "projectPath": "./tests",
-      "privateKeyPath": "./tests/private.wx1234567890.key"
-    }
-  }
-```
-
 ## 本地运行 | Getting Started
 安装依赖
 
