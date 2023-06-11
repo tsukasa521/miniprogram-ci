@@ -29,7 +29,7 @@
 ### 新建项目
 新建一个小程序项目,并设置一个初始的版本号，如果项目已经发布过这里可以设置为上一个版本号；如果从未发布过这里可以设置为`0.0.0`.
 ```sh
-  mp-ci project update <miniprogram project name> <init version>
+  mp-ci project create [options] <project name>
 ```
 
 如果项目已经存在,那么执行此命令就是手动更新版本号
@@ -37,7 +37,7 @@
 ### 查看项目
 新建完成后,可以随时查看项目的版本号
 ```sh
-  mp-ci project ls
+  mp-ci project ls [options]
 
   # 显示如下内容:
   ┌─────────┬────────────┬──────────┐
@@ -50,7 +50,7 @@
 ### 发布小程序
 下面就是最重要的一步发布小程序
 ```sh
-  mp-ci upload [options] <project name> <config path>
+  mp-ci upload [options] <project name>
 ```
 
 需要知道要发布的那个小程序项目名称和发布的配置文件路径，配置文件的内容与官网包完全一致
@@ -76,10 +76,10 @@
 
 本地运行命令
 ```sh
-  node ./dist/index.js project update <miniprogram project name> <init version>
-
-  node ./dist/index.js project ls
+  node ./dist/index.js [options] [command]
 ```
 ### mock运行
-
-如果没有真实的小程序appid和密钥，可以通过设置环境变量`mock`为`true`来运行命令
+如果没有真实的小程序appid和密钥，可以通过设置环境变量 `MOCK_ENV = mock` 来运行命令
+```sh
+  MOCK_ENV=mock node ./dist/index.js [options] [command]
+```
