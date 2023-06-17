@@ -125,6 +125,16 @@ test('[createProject] standard create', async () => {
   expect(infoMock.mock.calls[0][0]).toEqual("p2 新建成功, 0.0.1")
 });
 
+test('[createProject] duplicate create', async () => {
+  await expect(createProject('p1', {
+    projectVersion: '0.0.1',
+    appid: 'wx1234567890',
+    type: 'miniProgram',
+    projectPath: './tests',
+    privateKeyPath: './tests/private.wx1234567890.key'
+  })).rejects.toThrowError(new Error('项目已存在'))
+});
+
 
 test('[publishMiniprogram] standard', async () => {
   console.info = jest.fn()
