@@ -110,6 +110,14 @@ test('[updateProject] standard update', async () => {
   expect(infoMock.mock.calls[0][0]).toEqual("p1 更新成功")
 });
 
+test('[updateProject] project no exist', async () => {
+  // todo
+});
+
+test('[updateProject] invalid project version', async () => {
+  // todo
+});
+
 test('[createProject] standard create', async () => {
   console.info = jest.fn()
 
@@ -135,6 +143,17 @@ test('[createProject] duplicate create', async () => {
   })).rejects.toThrowError(new Error('项目已存在'))
 });
 
+test('[createProject] require options validation', async () => {
+  // todo
+})
+
+test('[createProject] invalid project version', async () => {
+  // todo
+})
+
+test('[createProject] default options', async () => {
+  // todo
+})
 
 test('[publishMiniprogram] standard', async () => {
   console.info = jest.fn()

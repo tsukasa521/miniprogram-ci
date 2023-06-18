@@ -49,10 +49,5 @@ test('[nextSemanticVersion] odd policy', async () => {
 });
 
 test('[nextSemanticVersion project not exist] ', async () => {
-  try {
-    await nextSemanticVersion('p2')
-  } catch (error) {
-    expect(error).toBeInstanceOf(Error)
-    expect((error as Error).message).toEqual('请确认项目p2是否设置了版本号')
-  }
+  await expect(() => nextSemanticVersion('p2')).rejects.toThrowError(new Error('请确认项目p2是否设置了版本号'))
 });
