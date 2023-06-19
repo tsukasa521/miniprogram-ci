@@ -111,7 +111,7 @@ test('[updateProject] standard update', async () => {
 });
 
 test('[updateProject] project no exist', async () => {
-  // todo
+  await expect(updateProject('p2', {})).rejects.toThrowError(new Error('项目不存在'))
 });
 
 test('[updateProject] invalid project version', async () => {
