@@ -115,7 +115,7 @@ test('[updateProject] project no exist', async () => {
 });
 
 test('[updateProject] invalid project version', async () => {
-  // todo
+  await expect(updateProject('p1', { projectVersion: 'aaa' })).rejects.toThrowError(new Error('版本号不符合Semantic规则'))
 });
 
 test('[createProject] standard create', async () => {
