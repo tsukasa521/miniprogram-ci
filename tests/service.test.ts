@@ -143,8 +143,18 @@ test('[createProject] duplicate create', async () => {
   })).rejects.toThrowError(new Error('项目已存在'))
 });
 
-test('[createProject] require options validation', async () => {
+test('[createProject] default options', async () => {
   // todo
+})
+
+test('[createProject] require options[appid] validation', async () => {
+  await expect(createProject('p2', {
+    projectVersion: '0.0.1',
+    appid: '',
+    type: 'miniProgram',
+    projectPath: './tests',
+    privateKeyPath: './tests/private.wx1234567890.key'
+  })).rejects.toThrowError(new Error('appid projectPath 为必填项, privateKey 和 privateKeyPath 中至少选择一项'))
 })
 
 test('[createProject] invalid project version', async () => {
