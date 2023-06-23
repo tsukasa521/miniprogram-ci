@@ -167,6 +167,15 @@ test('[createProject] require options[projectPath] validation', async () => {
   })).rejects.toThrowError(new Error('appid projectPath 为必填项, privateKey 和 privateKeyPath 中至少选择一项'))
 })
 
+test('[createProject] require options[privateKey privateKeyPath] validation', async () => {
+  await expect(createProject('p2', {
+    projectVersion: '0.0.1',
+    appid: 'wx1234567890',
+    type: 'miniProgram',
+    projectPath: './tests',
+  })).rejects.toThrowError(new Error('appid projectPath 为必填项, privateKey 和 privateKeyPath 中至少选择一项'))
+})
+
 test('[createProject] invalid project version', async () => {
   // todo
 })
