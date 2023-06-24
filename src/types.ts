@@ -40,7 +40,7 @@ export type listProjectOptions = {
 export type CreateProjectOptions = {
   projectVersion: string // 想要更新的版本号
   projectPath: string;
-  type: ProjectType;
+  type: ProjectType | "";
   appid: string;
   privateKey?: string;
   privateKeyPath?: string;

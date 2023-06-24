@@ -143,8 +143,27 @@ test('[createProject] duplicate create', async () => {
   })).rejects.toThrowError(new Error('项目已存在'))
 });
 
-test('[createProject] default options', async () => {
-  // todo
+test('[createProject] create with default options', async () => {
+  console.log = jest.fn()
+
+  await createProject('p2', {
+    projectVersion: '',
+    appid: 'wx1234567890',
+    type: '',
+    projectPath: './tests',
+    privateKeyPath: './tests/private.wx1234567890.key'
+  })
+
+  const log = console.log as any
+
+  const expectValue = {
+    "p1":
+      { "appid": "wx1234567890", "privateKeyPath": "./tests/private.wx1234567890.key", "projectName": "p1", "projectPath": "./tests", "type": "miniProgram", "version": "0.0.1" },
+    "p2":
+      { "appid": "wx1234567890", "ignores": ["node_modules/**/*"], "privateKey": undefined, "privateKeyPath": "./tests/private.wx1234567890.key", "projectName": "p2", "projectPath": "./tests", "type": "miniProgram", "version": "0.0.0" }
+  }
+
+  expect(log.mock.calls[0][0]).toEqual(expectValue)
 })
 
 test('[createProject] require options[appid] validation', async () => {
