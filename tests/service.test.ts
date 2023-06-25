@@ -199,10 +199,6 @@ test('[createProject] invalid project version', async () => {
   // todo
 })
 
-test('[createProject] default options', async () => {
-  // todo
-})
-
 test('[publishMiniprogram] standard', async () => {
   console.info = jest.fn()
 
