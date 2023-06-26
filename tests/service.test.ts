@@ -118,7 +118,7 @@ test('[updateProject] invalid project version', async () => {
   await expect(updateProject('p1', { projectVersion: 'aaa' })).rejects.toThrowError(new Error('版本号不符合Semantic规则'))
 });
 
-test('[createProject] standard create', async () => {
+test('[createProject] standard create with privateKeyPath', async () => {
   console.info = jest.fn()
 
   await createProject('p2', {
@@ -131,6 +131,10 @@ test('[createProject] standard create', async () => {
 
   const infoMock = console.info as any
   expect(infoMock.mock.calls[0][0]).toEqual("p2 新建成功, 0.0.1")
+});
+
+test('[createProject] standard create with privateKey', async () => {
+  // todo
 });
 
 test('[createProject] duplicate create', async () => {
@@ -196,7 +200,13 @@ test('[createProject] require options[privateKey privateKeyPath] validation', as
 })
 
 test('[createProject] invalid project version', async () => {
-  // todo
+  await expect(createProject('p2', {
+    projectVersion: 'aaa',
+    appid: 'wx1234567890',
+    type: 'miniProgram',
+    projectPath: './tests',
+    privateKeyPath: './tests/private.wx1234567890.key'
+  })).rejects.toThrowError(new Error('版本号不符合Semantic规则'))
 })
 
 test('[publishMiniprogram] standard', async () => {
