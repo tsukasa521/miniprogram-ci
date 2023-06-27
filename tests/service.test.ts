@@ -134,7 +134,18 @@ test('[createProject] standard create with privateKeyPath', async () => {
 });
 
 test('[createProject] standard create with privateKey', async () => {
-  // todo
+  console.info = jest.fn()
+
+  await createProject('p2', {
+    projectVersion: '0.0.1',
+    appid: 'wx1234567890',
+    type: 'miniProgram',
+    projectPath: './tests',
+    privateKey: 'xxx'
+  })
+
+  const infoMock = console.info as any
+  expect(infoMock.mock.calls[0][0]).toEqual("p2 新建成功, 0.0.1")
 });
 
 test('[createProject] duplicate create', async () => {
