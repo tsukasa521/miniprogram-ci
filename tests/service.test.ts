@@ -228,3 +228,7 @@ test('[publishMiniprogram] standard', async () => {
   const infoMock = console.info as any
   expect(infoMock.mock.calls[0][0]).toEqual("准备开始上传 p1 小程序，版本号: 0.0.3")
 });
+
+test('[publishMiniprogram] project not exist', async () => {
+  await expect(publishMiniprogram('p2', {})).rejects.toThrowError(new Error('请确认项目p2是否设置了版本号'))
+});
