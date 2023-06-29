@@ -1,6 +1,6 @@
 import { IDatabase } from "../src/database";
 import { MiniprogramProject, T_Miniprogram_Project } from "../src/types";
-import { createProject, getProjectList, publishMiniprogram, updateProject } from "../src/services";
+import { createProject, getProjectList, publishMiniprogram, removeProject, updateProject } from "../src/services";
 
 jest.mock('../src/database.ts', () => {
   class MockDatabase implements IDatabase {
@@ -231,4 +231,12 @@ test('[publishMiniprogram] standard', async () => {
 
 test('[publishMiniprogram] project not exist', async () => {
   await expect(publishMiniprogram('p2', {})).rejects.toThrowError(new Error('请确认项目p2是否设置了版本号'))
+});
+
+test('[removeProject] standard', async () => {
+  // todo
+})
+
+test('[removeProject] project not exist', async () => {
+  await expect(removeProject('p2')).rejects.toThrowError(new Error('项目不存在'))
 });
