@@ -234,7 +234,10 @@ test('[publishMiniprogram] project not exist', async () => {
 });
 
 test('[removeProject] standard', async () => {
-  // todo
+  console.log = jest.fn()
+  await removeProject('p1')
+  const logMock = console.log as any
+  expect(logMock.mock.calls[0][0]).toEqual({})
 })
 
 test('[removeProject] project not exist', async () => {
