@@ -1,6 +1,6 @@
 {
   "name": "@2kk/miniprogram-ci",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "可以快速持续化集成小程序工具",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
